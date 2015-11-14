@@ -38,6 +38,11 @@ public class Player extends SpaceObject {
     private Line2D.Float[] hitLines;
     private Point2D.Float[] hitLinesVector;
 
+    private Sensor sensor;
+
+    private boolean left2;
+    private boolean right2;
+
     public Player(ArrayList<Bullet> bullets){
 
         this.bullets = bullets;
@@ -60,6 +65,8 @@ public class Player extends SpaceObject {
         hit = false;
         hitTimer = 0;
         hitTime = 2;
+
+        sensor = new Sensor(this);
 
     }
 
@@ -129,6 +136,8 @@ public class Player extends SpaceObject {
 
     public void update(float dt){
 
+        roundRadians();
+
         // Check if hit
         if(hit){
             hitTimer += dt;
@@ -147,9 +156,9 @@ public class Player extends SpaceObject {
         }
 
         // Turn
-        if(left){
+        if(left || left2){
             radians += rotationSpeed * dt;
-        }else if(right){
+        }else if(right || right2){
             radians -= rotationSpeed * dt;
         }
 
@@ -190,6 +199,8 @@ public class Player extends SpaceObject {
 
         // Screen Wrap
         wrap();
+
+        sensor.update(this);
     }
 
     public void draw(ShapeRenderer sr){
@@ -225,7 +236,33 @@ public class Player extends SpaceObject {
         }
 
         sr.end();
+
+        sensor.draw(sr);
     }
 
+    public Sensor getSensor(){ return sensor; }
+
+    public void decide(Asteroid a){
+        //up = true;
+
+        double degree = Math.toDegrees(radians);
+        System.out.println(degree);
+        if(degree > 100 || degree < 80){
+            left2 = true;
+        }else{
+            left2 = false;
+        }
+
+        if(!sensor.inside(a)){
+            stay();
+            return;
+        }
+    }
+
+    public void stay(){
+        left = false;
+        right = false;
+        up = false;
+    }
 
 }

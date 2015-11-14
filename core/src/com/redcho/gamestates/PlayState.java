@@ -64,7 +64,8 @@ public class PlayState extends GameState {
     private void spawnAsteroids(){
         asteroids.clear();
 
-        int numToSpawn = 4 + level - 1;
+        //int numToSpawn = 4 + level - 1;
+        int numToSpawn = 1;
         totalAsteroids = numToSpawn * 7;
         numAsteroidsLeft = totalAsteroids;
 
@@ -163,6 +164,16 @@ public class PlayState extends GameState {
                 }
             }
         }
+
+        // Asteroid - Sensor
+        Sensor s = player.getSensor();
+        for(int i =0; i<asteroids.size(); i++){
+            Asteroid a = asteroids.get(i);
+            if(s.inside(a)){
+                player.decide(a);
+            }
+        }
+
     }
 
     public void draw(){
@@ -183,6 +194,7 @@ public class PlayState extends GameState {
 
     }
     public void handleInput(){
+
         player.setLeft(Gdx.input.isKeyPressed(Input.Keys.A));
         player.setRight(Gdx.input.isKeyPressed(Input.Keys.D));
         player.setUp(Gdx.input.isKeyPressed(Input.Keys.W));

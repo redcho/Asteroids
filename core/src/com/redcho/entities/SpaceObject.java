@@ -59,4 +59,11 @@ public class SpaceObject {
         if(y < 0) y = ZMainGame.HEIGHT;
         if(y > ZMainGame.HEIGHT) y = 0;
     }
+
+    public void roundRadians(){
+        radians = radians % (2*3.1415f);
+        if(radians < 0.0f){
+            radians += 2*3.1415f;
+        }
+    }
 }

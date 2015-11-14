@@ -15,6 +15,7 @@ public class Asteroid extends SpaceObject{
 
     private int numPoints;
     private float[] dists;
+    private float radius;
 
     private boolean remove;
 
@@ -36,7 +37,8 @@ public class Asteroid extends SpaceObject{
             width = height = 40;
             speed = MathUtils.random(20, 30);
         }
-
+        /***/
+        speed  = 0;
         rotationSpeed = MathUtils.random(-1, 1);
 
         radians = MathUtils.random(2 * 3.1415f);
@@ -47,7 +49,7 @@ public class Asteroid extends SpaceObject{
         shapey = new float[numPoints];
         dists = new float[numPoints];
 
-        int radius = width / 2;
+        radius = width / 2;
         for(int i=0; i<numPoints; i++){
             dists[i] = MathUtils.random(radius/2, radius);
         }
@@ -69,6 +71,9 @@ public class Asteroid extends SpaceObject{
     public boolean shouldRemove(){ return remove; }
 
     public void update(float dt){
+
+        roundRadians();
+
         x += dx * dt;
         y += dy * dt;
 
@@ -89,4 +94,6 @@ public class Asteroid extends SpaceObject{
         sr.end();
     }
 
+    public float getRadius(){ return radius; }
+    public float getRadians(){ return radians; }
 }
