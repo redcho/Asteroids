@@ -237,6 +237,7 @@ public class Player extends SpaceObject {
 
         sr.end();
 
+        // Sensor up
         sensor.draw(sr);
     }
 
